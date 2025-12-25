@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/mock_grocery_repository.dart';
 import '../../models/grocery.dart';
 import 'grocery_form.dart';
+import 'tabs/tab_detail.dart';
 
 class GroceryList extends StatefulWidget {
   const GroceryList({super.key});
@@ -11,7 +12,6 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
-
   void onCreate() async {
     // Navigate to the form screen using the Navigator push
     Grocery? newGrocery = await Navigator.push<Grocery>(
@@ -33,8 +33,20 @@ class _GroceryListState extends State<GroceryList> {
       //  Display groceries with an Item builder and  LIst Tile
       content = ListView.builder(
         itemCount: dummyGroceryItems.length,
-        itemBuilder: (context, index) =>
-            GroceryTile(grocery: dummyGroceryItems[index]),
+        itemBuilder: (context, index) {
+          final grocery = dummyGroceryItems[index];
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TabDetail(tabId: grocery.id),
+                ),
+              );
+            },
+            child: GroceryTile(grocery: grocery),
+          );
+        },
       );
     }
 
