@@ -16,30 +16,26 @@ class _TabDetailState extends State<TabDetail> {
   GroceryTabType _currentTab = GroceryTabType.grocery;
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      initialIndex: _currentTab.index,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Details'),
-          bottom: TabBar(
-            onTap: (index) {
-              setState(() {
-                _currentTab = GroceryTabType.values[index];
-              });
-            },
-            tabs: const [
-              Tab(text: 'Grocery'),
-              Tab(text: 'Search'),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            GroceryTab(tabId: widget.tabId),
-            SearchTab(tabId: widget.tabId),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Details')),
+      body: IndexedStack(
+        index: _currentTab.index,
+        children: [
+          GroceryTab(tabId: widget.tabId),
+          SearchTab(tabId: widget.tabId),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentTab.index,
+        onTap: (index) {
+          setState(() {
+            _currentTab = GroceryTabType.values[index];
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Grocery'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+        ],
       ),
     );
   }

@@ -105,7 +105,7 @@ class _SearchGroceriesTabState extends State<_SearchGroceriesTab> {
     final filtered = _query.isEmpty
         ? <Grocery>[]
         : dummyGroceryItems
-              .where((g) => g.name.toLowerCase().contains(_query.toLowerCase()))
+              .where((g) => g.name.toLowerCase().startsWith(_query.toLowerCase()))
               .toList();
 
     return Column(
@@ -116,7 +116,6 @@ class _SearchGroceriesTabState extends State<_SearchGroceriesTab> {
             controller: _controller,
             decoration: const InputDecoration(
               hintText: 'Search groceries by name',
-              border: UnderlineInputBorder(),
             ),
             onChanged: (v) => setState(() => _query = v),
           ),
