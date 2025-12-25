@@ -12,6 +12,9 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
+  // Current active tab index when using IndexedStack
+  int _currentIndex = 0;
+
   void onCreate() async {
     // Navigate to the form screen using the Navigator push
     Grocery? newGrocery = await Navigator.push<Grocery>(
@@ -27,25 +30,25 @@ class _GroceryListState extends State<GroceryList> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Your Groceries'),
-          actions: [
-            IconButton(onPressed: onCreate, icon: const Icon(Icons.add)),
-          ],
-        ),
-        body: TabBarView(children: [_AllGroceriesTab(), _SearchGroceriesTab()]),
-        bottomNavigationBar: Material(
-          color: Theme.of(context).colorScheme.surface,
-          child: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.shopping_cart), text: 'Groceries'),
-              Tab(icon: Icon(Icons.search), text: 'Search'),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Your Groceries'),
+        actions: [IconButton(onPressed: onCreate, icon: const Icon(Icons.add))],
+      ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [_AllGroceriesTab(), _SearchGroceriesTab()],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() => _currentIndex = i),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Groceries',
           ),
-        ),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+        ],
       ),
     );
   }
