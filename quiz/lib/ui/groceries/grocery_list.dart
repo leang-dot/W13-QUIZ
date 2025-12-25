@@ -125,13 +125,9 @@ class _SearchGroceriesTabState extends State<_SearchGroceriesTab> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                _query[0].toUpperCase(),
-                style: const TextStyle(color: Colors.black54),
-              ),
+              child: Text(''),
             ),
           ),
-        const Divider(height: 1),
         Expanded(
           child: filtered.isEmpty
               ? Center(
